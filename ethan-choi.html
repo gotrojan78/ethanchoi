@@ -34,7 +34,7 @@
       color: var(--text);
       font-family: 'Inter', 'Noto Sans KR', sans-serif;
       min-height: 100vh;
-      padding: 24px;
+      padding: 80px 24px 24px;
       line-height: 1.6;
     }
 
@@ -293,6 +293,167 @@
     .ci-web { background: rgba(201,168,76,.15); }
     .ci-mail { background: rgba(234,179,8,.1); }
 
+    /* ─── Top Navigation ─── */
+    .topnav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 58px;
+      background: rgba(13,13,13,.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 12px;
+    }
+    .topnav-logo {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: -.3px;
+    }
+    .topnav-logo em { color: var(--gold); font-style: normal; }
+    .topnav-spacer { flex: 1; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .nav-link {
+      color: var(--text-2);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color .2s, background .2s;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,.05); }
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--gold);
+      color: #000;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      white-space: nowrap;
+      margin-left: 6px;
+      font-family: inherit;
+    }
+    .nav-cta:hover { opacity: .85; transform: translateY(-1px); }
+
+    /* ─── Modal ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 36px 32px 32px;
+      position: relative;
+      animation: modalUp .25s ease;
+    }
+    @keyframes modalUp {
+      from { opacity: 0; transform: translateY(28px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px; right: 18px;
+      width: 34px; height: 34px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+      line-height: 1;
+    }
+    .modal-close:hover { border-color: var(--gold-dim); color: var(--text); }
+    .modal-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+    .modal-title { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -.5px; margin-bottom: 6px; }
+    .modal-sub   { font-size: 13px; color: var(--text-2); margin-bottom: 26px; line-height: 1.6; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .form-label { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: .08em; text-transform: uppercase; }
+    .form-input, .form-select, .form-textarea {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      padding: 10px 14px;
+      width: 100%;
+      transition: border-color .2s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-3); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+    .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
+    .form-select option { background: #1c1c1c; }
+    .form-textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
+    .form-hint { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+    .form-divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+    .form-submit {
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: opacity .2s, transform .15s;
+      font-family: inherit;
+      letter-spacing: .02em;
+    }
+    .form-submit:hover { opacity: .88; transform: translateY(-1px); }
+    .modal-body    { display: block; }
+    .modal-success { display: none; flex-direction: column; align-items: center; text-align: center; padding: 16px 0 8px; }
+    .modal-success.show { display: flex; }
+    .modal-body.hidden { display: none; }
+    .success-icon  { font-size: 56px; margin-bottom: 16px; }
+    .success-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .success-sub   { font-size: 13px; color: var(--text-2); line-height: 1.8; }
+    .success-back  { margin-top: 20px; background: none; border: 1px solid var(--border); color: var(--text-2); font-size: 13px; padding: 8px 20px; border-radius: 9px; cursor: pointer; font-family: inherit; transition: all .2s; }
+    .success-back:hover { border-color: var(--gold-dim); color: var(--text); }
+
     /* ─── Language visibility ─── */
     [data-lang="ko"] .en { display: none; }
     [data-lang="en"] .ko { display: none; }
@@ -336,10 +497,154 @@
 </head>
 <body>
 
-  <!-- Language Toggle -->
-  <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
-    <button class="lang-btn" onclick="setLang('en')">English</button>
+  <!-- ─── TOP NAVIGATION ─── -->
+  <nav class="topnav">
+    <div class="topnav-logo ko">최재유 <em>·</em> Ethan Choi</div>
+    <div class="topnav-logo en">Ethan Choi <em>·</em> 최재유</div>
+    <div class="topnav-spacer"></div>
+    <div class="nav-links">
+      <button class="nav-link ko" onclick="document.querySelector('.card-bio').scrollIntoView({behavior:'smooth'})">소개</button>
+      <button class="nav-link en" onclick="document.querySelector('.card-bio').scrollIntoView({behavior:'smooth'})">About</button>
+      <button class="nav-link ko" onclick="document.querySelector('.card-career').scrollIntoView({behavior:'smooth'})">경력</button>
+      <button class="nav-link en" onclick="document.querySelector('.card-career').scrollIntoView({behavior:'smooth'})">Career</button>
+      <button class="nav-link ko" onclick="document.querySelector('.card-focus').scrollIntoView({behavior:'smooth'})">투자 철학</button>
+      <button class="nav-link en" onclick="document.querySelector('.card-focus').scrollIntoView({behavior:'smooth'})">Investment</button>
+    </div>
+    <div class="lang-toggle" style="position:static; z-index:auto;">
+      <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
+      <button class="lang-btn" onclick="setLang('en')">English</button>
+    </div>
+    <button class="nav-cta" onclick="openModal()">
+      <span>📋</span>
+      <span class="ko">투자 제안서 제출</span>
+      <span class="en">Submit Proposal</span>
+    </button>
+  </nav>
+
+  <!-- ─── INVESTMENT PROPOSAL MODAL ─── -->
+  <div class="modal-overlay" id="proposalModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+
+      <!-- Form body -->
+      <div class="modal-body" id="modalBody">
+        <div class="modal-eyebrow ko">투자 제안서</div>
+        <div class="modal-eyebrow en">Investment Proposal</div>
+        <div class="modal-title ko">스타트업을 소개해주세요</div>
+        <div class="modal-title en">Tell Us About Your Startup</div>
+        <div class="modal-sub ko">Mulia Sky Capital은 인도네시아 &amp; 한국의 소비재·테크·문화 분야 초기 스타트업에 투자합니다. 간략한 정보를 남겨주시면 검토 후 연락드리겠습니다.</div>
+        <div class="modal-sub en">Mulia Sky Capital backs early-stage startups in consumer, tech &amp; culture across Indonesia &amp; Korea. Leave us a brief overview and we'll be in touch.</div>
+
+        <form id="proposalForm" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label ko">창업자 이름</label>
+              <label class="form-label en">Founder Name</label>
+              <input class="form-input" type="text" placeholder="홍길동 / John Doe" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label ko">회사명</label>
+              <label class="form-label en">Company Name</label>
+              <input class="form-input" type="text" placeholder="My Startup" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label ko">이메일</label>
+              <label class="form-label en">Email</label>
+              <input class="form-input" type="email" placeholder="hello@startup.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label ko">운영 국가</label>
+              <label class="form-label en">Country</label>
+              <select class="form-select">
+                <option value="">선택 / Select</option>
+                <option>Indonesia 🇮🇩</option>
+                <option>Korea 🇰🇷</option>
+                <option>Singapore 🇸🇬</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label ko">분야</label>
+              <label class="form-label en">Sector</label>
+              <select class="form-select" required>
+                <option value="">선택 / Select</option>
+                <option>Consumer / 소비재</option>
+                <option>Technology / 테크</option>
+                <option>Culture &amp; Creative / 문화·크리에이티브</option>
+                <option>Fintech / 핀테크</option>
+                <option>Proptech / 프롭테크</option>
+                <option>Healthcare / 헬스케어</option>
+                <option>Other / 기타</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label ko">투자 단계</label>
+              <label class="form-label en">Stage</label>
+              <select class="form-select">
+                <option value="">선택 / Select</option>
+                <option>Pre-Seed</option>
+                <option>Seed</option>
+                <option>Series A</option>
+                <option>Series B+</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label ko">필요 투자금 (USD)</label>
+            <label class="form-label en">Funding Need (USD)</label>
+            <select class="form-select">
+              <option value="">선택 / Select</option>
+              <option>Under $500K</option>
+              <option>$500K – $1M</option>
+              <option>$1M – $3M</option>
+              <option>$3M – $5M</option>
+              <option>$5M+</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label ko">웹사이트 / 덱 링크</label>
+            <label class="form-label en">Website / Deck Link</label>
+            <input class="form-input" type="url" placeholder="https://..." />
+            <div class="form-hint ko">피치덱, 노션, 웹사이트 등 자유롭게 공유해주세요</div>
+            <div class="form-hint en">Pitch deck, Notion page, website — anything works</div>
+          </div>
+
+          <hr class="form-divider" />
+
+          <div class="form-group">
+            <label class="form-label ko">간략 소개</label>
+            <label class="form-label en">Brief Description</label>
+            <textarea class="form-textarea" placeholder="어떤 문제를 해결하고 있나요? 현재 지표나 트랙션이 있다면 함께 공유해주세요. / What problem are you solving? Share any key metrics or traction if available." required></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">
+            <span class="ko">제출하기 →</span>
+            <span class="en">Submit Proposal →</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Success state -->
+      <div class="modal-success" id="modalSuccess">
+        <div class="success-icon">✅</div>
+        <div class="success-title ko">제출 완료!</div>
+        <div class="success-title en">Proposal Received!</div>
+        <div class="success-sub ko">소중한 제안서를 보내주셔서 감사합니다.<br>검토 후 이메일로 연락드리겠습니다.<br><br>LinkedIn으로도 연락주시면 더욱 빠르게 소통할 수 있습니다.</div>
+        <div class="success-sub en">Thank you for reaching out.<br>We'll review your proposal and get back to you via email.<br><br>Feel free to connect on LinkedIn for a quicker response.</div>
+        <button class="success-back" onclick="closeModal()">
+          <span class="ko">닫기</span>
+          <span class="en">Close</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <main class="bento">
@@ -640,6 +945,31 @@
         btn.classList.toggle('active', btn.textContent.trim() === (lang === 'ko' ? '한국어' : 'English'));
       });
     }
+
+    function openModal() {
+      document.getElementById('proposalModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('proposalModal').classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        document.getElementById('modalBody').classList.remove('hidden');
+        document.getElementById('modalSuccess').classList.remove('show');
+        document.getElementById('proposalForm').reset();
+      }, 300);
+    }
+
+    function submitForm(e) {
+      e.preventDefault();
+      document.getElementById('modalBody').classList.add('hidden');
+      document.getElementById('modalSuccess').classList.add('show');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
   </script>
 </body>
 </html>
