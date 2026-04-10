@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>최재유 · Ethan Choi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0d0d;
+      --surface:  #141414;
+      --card:     #1a1a1a;
+      --card-alt: #1f1f1f;
+      --border:   #2a2a2a;
+      --gold:     #c9a84c;
+      --gold-dim: #8a6f2e;
+      --text:     #f0f0f0;
+      --text-2:   #a0a0a0;
+      --text-3:   #666;
+      --accent:   #3b82f6;
+      --green:    #10b981;
+      --radius:   20px;
+      --gap:      14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      min-height: 100vh;
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    /* ─── Language Toggle ─── */
+    .lang-toggle {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 100;
+      display: flex;
+      gap: 4px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 4px;
+    }
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-2);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: .03em;
+    }
+    .lang-btn.active {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* ─── Bento Grid ─── */
+    .bento {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: var(--gap);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
+      transition: border-color .25s, transform .2s;
+    }
+    .card:hover {
+      border-color: var(--gold-dim);
+      transform: translateY(-2px);
+    }
+
+    /* ─── Grid placement ─── */
+    .card-hero      { grid-column: 1 / 6;  grid-row: 1; }
+    .card-roles     { grid-column: 6 / 10; grid-row: 1; }
+    .card-location  { grid-column: 10 / 13;grid-row: 1; }
+    .card-bio       { grid-column: 1 / 7;  grid-row: 2; }
+    .card-cohive    { grid-column: 7 / 13; grid-row: 2; }
+    .card-career    { grid-column: 1 / 5;  grid-row: 3; }
+    .card-focus     { grid-column: 5 / 9;  grid-row: 3; }
+    .card-edu       { grid-column: 9 / 13; grid-row: 3; }
+    .card-stats     { grid-column: 1 / 13; grid-row: 4; }
+    .card-quote     { grid-column: 1 / 8;  grid-row: 5; }
+    .card-contact   { grid-column: 8 / 13; grid-row: 5; }
+
+    /* ─── Hero Card ─── */
+    .card-hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #1e1812 100%);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 32px;
+    }
+    .hero-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--gold);
+      flex-shrink: 0;
+      background: var(--border);
+    }
+    .hero-initials {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #2a2010, #3a2e14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: -1px;
+    }
+    .hero-info { flex: 1; min-width: 0; }
+    .hero-name-ko { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -.5px; }
+    .hero-name-en { font-size: 14px; color: var(--gold); font-weight: 500; margin-top: 2px; letter-spacing: .05em; }
+    .hero-title   { font-size: 13px; color: var(--text-2); margin-top: 8px; line-height: 1.5; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 50px;
+      margin-top: 10px;
+    }
+    .badge-gold { background: rgba(201,168,76,.15); color: var(--gold); border: 1px solid rgba(201,168,76,.3); }
+    .badge-green { background: rgba(16,185,129,.1); color: var(--green); border: 1px solid rgba(16,185,129,.25); }
+    .badge-blue  { background: rgba(59,130,246,.1); color: #60a5fa; border: 1px solid rgba(59,130,246,.25); }
+
+    /* ─── Roles Card ─── */
+    .card-roles { display: flex; flex-direction: column; gap: 14px; }
+    .role-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 14px;
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .role-company { font-size: 13px; font-weight: 700; color: var(--gold); }
+    .role-title   { font-size: 12px; color: var(--text-2); }
+    .role-meta    { font-size: 11px; color: var(--text-3); }
+
+    /* ─── Location Card ─── */
+    .card-location {
+      background: linear-gradient(160deg, #0f1a2e 0%, #141414 100%);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .map-icon { font-size: 40px; margin-bottom: 8px; }
+    .location-city { font-size: 22px; font-weight: 700; color: var(--text); }
+    .location-country { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+    .flag { font-size: 28px; margin-top: 8px; }
+
+    /* ─── Bio Card ─── */
+    .card-bio { background: linear-gradient(135deg, #141414, #181a14); }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .bio-text { font-size: 14px; color: var(--text-2); line-height: 1.8; }
+    .bio-text strong { color: var(--text); font-weight: 600; }
+
+    /* ─── CoHive Card ─── */
+    .card-cohive { background: linear-gradient(135deg, #0d1a0d, #141414); }
+    .startup-name { font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -1px; }
+    .startup-sub  { font-size: 13px; color: var(--green); font-weight: 500; margin-top: 4px; }
+    .startup-desc { font-size: 13px; color: var(--text-2); margin-top: 12px; line-height: 1.7; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .tag {
+      font-size: 11px; font-weight: 500;
+      padding: 3px 10px; border-radius: 50px;
+      background: rgba(255,255,255,.05); color: var(--text-2);
+      border: 1px solid var(--border);
+    }
+
+    /* ─── Career Timeline ─── */
+    .card-career { background: var(--card); }
+    .timeline { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
+    .tl-item { display: flex; gap: 12px; align-items: flex-start; }
+    .tl-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0; margin-top: 5px;
+    }
+    .tl-dot.dim { background: var(--border); }
+    .tl-right {}
+    .tl-org  { font-size: 13px; font-weight: 600; color: var(--text); }
+    .tl-role { font-size: 12px; color: var(--text-2); }
+    .tl-year { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+
+    /* ─── Focus Card ─── */
+    .card-focus { background: linear-gradient(160deg, #0e0e1a, #141414); }
+    .focus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .focus-item {
+      padding: 12px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .focus-icon { font-size: 22px; margin-bottom: 4px; }
+    .focus-label { font-size: 11px; color: var(--text-2); font-weight: 500; }
+
+    /* ─── Education Card ─── */
+    .card-edu { }
+    .edu-item { margin-bottom: 16px; }
+    .edu-school { font-size: 14px; font-weight: 700; color: var(--text); }
+    .edu-degree { font-size: 12px; color: var(--gold); font-weight: 500; margin-top: 2px; }
+    .edu-sub    { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+    /* ─── Stats Bar ─── */
+    .card-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      padding: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .stat-cell {
+      background: var(--card);
+      padding: 24px 28px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      transition: background .2s;
+    }
+    .stat-cell:hover { background: var(--card-alt); }
+    .stat-num  { font-size: 32px; font-weight: 800; color: var(--gold); letter-spacing: -1px; }
+    .stat-lbl  { font-size: 11px; color: var(--text-2); margin-top: 4px; font-weight: 500; letter-spacing: .05em; }
+
+    /* ─── Quote Card ─── */
+    .card-quote { background: linear-gradient(135deg, #1a1208, #141414); }
+    .quote-text {
+      font-size: 18px; font-weight: 500; color: var(--text);
+      line-height: 1.6; letter-spacing: -.2px;
+      font-style: italic;
+    }
+    .quote-text::before { content: '\201C'; color: var(--gold); font-size: 28px; line-height: 0; vertical-align: -8px; margin-right: 4px; }
+    .quote-text::after  { content: '\201D'; color: var(--gold); font-size: 28px; line-height: 0; vertical-align: -8px; margin-left: 4px; }
+    .quote-src  { font-size: 12px; color: var(--text-3); margin-top: 16px; }
+
+    /* ─── Contact Card ─── */
+    .card-contact { display: flex; flex-direction: column; gap: 10px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-2);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all .2s;
+    }
+    .contact-link:hover { border-color: var(--gold-dim); color: var(--text); background: rgba(201,168,76,.06); }
+    .contact-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .ci-li { background: rgba(10,102,194,.2); }
+    .ci-web { background: rgba(201,168,76,.15); }
+    .ci-mail { background: rgba(234,179,8,.1); }
+
+    /* ─── Language visibility ─── */
+    [data-lang="ko"] .en { display: none; }
+    [data-lang="en"] .ko { display: none; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .bento { grid-template-columns: repeat(6, 1fr); }
+      .card-hero     { grid-column: 1 / 7; }
+      .card-roles    { grid-column: 1 / 4; grid-row: 2; }
+      .card-location { grid-column: 4 / 7; grid-row: 2; }
+      .card-bio      { grid-column: 1 / 7; grid-row: 3; }
+      .card-cohive   { grid-column: 1 / 7; grid-row: 4; }
+      .card-career   { grid-column: 1 / 4; grid-row: 5; }
+      .card-focus    { grid-column: 4 / 7; grid-row: 5; }
+      .card-edu      { grid-column: 1 / 7; grid-row: 6; }
+      .card-stats    { grid-column: 1 / 7; grid-row: 7; grid-template-columns: repeat(2,1fr); }
+      .card-quote    { grid-column: 1 / 7; grid-row: 8; }
+      .card-contact  { grid-column: 1 / 7; grid-row: 9; }
+    }
+    @media (max-width: 600px) {
+      body { padding: 14px; }
+      .bento { grid-template-columns: 1fr; gap: 10px; }
+      .card-hero, .card-roles, .card-location,
+      .card-bio, .card-cohive, .card-career,
+      .card-focus, .card-edu, .card-quote, .card-contact { grid-column: 1 / 2; }
+      .card-stats { grid-column: 1 / 2; grid-template-columns: repeat(2,1fr); }
+      .card-roles    { grid-row: 2; }
+      .card-location { grid-row: 3; }
+      .card-bio      { grid-row: 4; }
+      .card-cohive   { grid-row: 5; }
+      .card-career   { grid-row: 6; }
+      .card-focus    { grid-row: 7; }
+      .card-edu      { grid-row: 8; }
+      .card-stats    { grid-row: 9; }
+      .card-quote    { grid-row: 10; }
+      .card-contact  { grid-row: 11; }
+      .focus-grid    { grid-template-columns: repeat(4,1fr); }
+      .lang-toggle   { top: 14px; right: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Language Toggle -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
+    <button class="lang-btn" onclick="setLang('en')">English</button>
+  </div>
+
+  <main class="bento">
+
+    <!-- ① HERO -->
+    <div class="card card-hero">
+      <img
+        class="hero-photo"
+        src="https://cdn.theorg.com/3c66471d-e94b-4662-9a26-511a6d9f2ad0_medium.jpg"
+        alt="Ethan Choi"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="hero-initials" style="display:none;">EC</div>
+      <div class="hero-info">
+        <div class="hero-name-ko ko">최재유</div>
+        <div class="hero-name-ko en" style="font-size:22px;">Ethan Choi</div>
+        <div class="hero-name-en ko">Jai Yoo (Ethan) Choi</div>
+        <div class="hero-name-en en">최재유 · Jay Yoo Choi</div>
+        <div class="hero-title ko">인도네시아 투자 전문가 · 스타트업 창업자</div>
+        <div class="hero-title en">Investor · Entrepreneur · Jakarta, Indonesia</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">
+          <span class="badge badge-gold">🏦 <span class="ko">벤처 파트너</span><span class="en">Venture Partner</span></span>
+          <span class="badge badge-green">🚀 <span class="ko">창업자</span><span class="en">Founder</span></span>
+          <span class="badge badge-blue">🎵 <span class="ko">음악 프로듀서</span><span class="en">Music Producer</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② CURRENT ROLES -->
+    <div class="card card-roles">
+      <div class="section-label ko">현재 직책</div>
+      <div class="section-label en">Current Roles</div>
+
+      <div class="role-item">
+        <div class="role-company">Mulia Sky Capital</div>
+        <div class="role-title ko">파운딩 파트너 (창업 파트너)</div>
+        <div class="role-title en">Founding Partner</div>
+        <div class="role-meta ko">초기 단계 벤처캐피털 · 인도네시아 &amp; 한국</div>
+        <div class="role-meta en">Early-stage VC · Indonesia &amp; Korea</div>
+      </div>
+
+      <div class="role-item">
+        <div class="role-company">Indies Capital Partners</div>
+        <div class="role-title ko">벤처 파트너</div>
+        <div class="role-title en">Venture Partner</div>
+        <div class="role-meta ko">동남아 선도 사모펀드 · 자카르타</div>
+        <div class="role-meta en">Leading SEA PE Firm · Jakarta</div>
+      </div>
+    </div>
+
+    <!-- ③ LOCATION -->
+    <div class="card card-location">
+      <div class="section-label ko">현재 위치</div>
+      <div class="section-label en">Location</div>
+      <div class="map-icon">🗺️</div>
+      <div class="location-city">Jakarta</div>
+      <div class="location-country">Indonesia 🇮🇩</div>
+      <div style="margin-top:14px; font-size:11px; color:var(--text-3); line-height:1.6;" class="ko">한국과 인도네시아를<br>연결하는 크로스보더 전문가</div>
+      <div style="margin-top:14px; font-size:11px; color:var(--text-3); line-height:1.6;" class="en">Bridging Korea &amp;<br>Indonesia capital markets</div>
+    </div>
+
+    <!-- ④ BIO -->
+    <div class="card card-bio">
+      <div class="section-label ko">소개</div>
+      <div class="section-label en">About</div>
+      <p class="bio-text ko">
+        최재유(Ethan Choi)는 <strong>인도네시아 자카르타</strong> 기반의 투자 전문가이자 연쇄 창업가입니다.
+        <strong>미디어·엔터테인먼트, 투자은행, 경영컨설팅, 사모펀드, 벤처캐피털</strong>을 아우르는 다학제적 커리어를 보유하고 있으며,
+        분석적 엄밀함과 운영 리더십, 창의적 감각을 겸비한 독보적인 전문가입니다.
+        현재 <strong>Mulia Sky Capital</strong>의 창업 파트너로서 인도네시아와 한국의 초기 스타트업에 투자하고 있으며,
+        <strong>Indies Capital Partners</strong>에서 벤처 파트너로 한국 기관 투자자 유치 및 크로스보더 협업을 이끌고 있습니다.
+      </p>
+      <p class="bio-text en">
+        Ethan Choi is a Jakarta-based <strong>investor and serial entrepreneur</strong> with a rare cross-disciplinary career spanning
+        <strong>media &amp; entertainment, equity research, investment banking, management consulting, private equity, and venture capital.</strong>
+        As Founding Partner of <strong>Mulia Sky Capital</strong>, he backs early-stage startups across Indonesia and Korea.
+        At <strong>Indies Capital Partners</strong>, he leads fundraising and cross-border collaboration, focusing on institutional capital from Korea.
+      </p>
+    </div>
+
+    <!-- ⑤ COHIVE STARTUP -->
+    <div class="card card-cohive">
+      <div class="section-label ko">대표 스타트업 경력</div>
+      <div class="section-label en">Startup Highlight</div>
+      <div class="startup-name">CoHive</div>
+      <div class="startup-sub ko">인도네시아 최대 코워킹 플랫폼 · 공동창업자 &amp; CCO</div>
+      <div class="startup-sub en">Indonesia's Largest Coworking Platform · Co-Founder &amp; CCO</div>
+      <p class="startup-desc ko">
+        2017년 창업, 전국 규모로 성장한 인도네시아 최대 코워킹 &amp; 스페이스애즈어서비스(Space-as-a-Service) 플랫폼.
+        프라이빗 오피스, 코워킹 공간, 미팅룸, 크리에이티브 스튜디오 등을 운영하며 스타트업 생태계의 핵심 인프라로 자리매김했습니다.
+        창업부터 전국 확장까지 스케일업 전 과정을 주도했습니다.
+      </p>
+      <p class="startup-desc en">
+        Co-founded in 2017, CoHive scaled from inception to become Indonesia's largest coworking and Space-as-a-Service platform,
+        offering private offices, co-working spaces, meeting rooms, and creative studios nationwide.
+        Ethan led the company's creative and business strategy as Chief Creative Officer.
+      </p>
+      <div class="tag-row">
+        <span class="tag">PropTech</span>
+        <span class="tag">Co-working</span>
+        <span class="tag">Space-as-a-Service</span>
+        <span class="tag">2017 Founded</span>
+        <span class="tag">Jakarta</span>
+      </div>
+    </div>
+
+    <!-- ⑥ CAREER TIMELINE -->
+    <div class="card card-career">
+      <div class="section-label ko">커리어 타임라인</div>
+      <div class="section-label en">Career Timeline</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-right">
+            <div class="tl-org">Mulia Sky Capital</div>
+            <div class="tl-role ko">창업 파트너</div>
+            <div class="tl-role en">Founding Partner</div>
+            <div class="tl-year ko">현재</div>
+            <div class="tl-year en">Present</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-right">
+            <div class="tl-org">Indies Capital Partners</div>
+            <div class="tl-role ko">벤처 파트너</div>
+            <div class="tl-role en">Venture Partner</div>
+            <div class="tl-year ko">현재</div>
+            <div class="tl-year en">Present</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot dim"></div>
+          <div class="tl-right">
+            <div class="tl-org">CoHive</div>
+            <div class="tl-role ko">공동창업자 &amp; CCO</div>
+            <div class="tl-role en">Co-Founder &amp; CCO</div>
+            <div class="tl-year">2017</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot dim"></div>
+          <div class="tl-right">
+            <div class="tl-org">Principia Management</div>
+            <div class="tl-role ko">투자 포트폴리오 매니저</div>
+            <div class="tl-role en">Investment Manager (PE)</div>
+            <div class="tl-year">Jakarta</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot dim"></div>
+          <div class="tl-right">
+            <div class="tl-org">A.T. Kearney</div>
+            <div class="tl-role ko">경영 컨설턴트</div>
+            <div class="tl-role en">Management Consultant</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot dim"></div>
+          <div class="tl-right">
+            <div class="tl-org">Woori Investment &amp; Securities</div>
+            <div class="tl-role ko">주식리서치 · 투자은행</div>
+            <div class="tl-role en">Equity Research &amp; IB</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑦ FOCUS AREAS -->
+    <div class="card card-focus">
+      <div class="section-label ko">투자 집중 분야</div>
+      <div class="section-label en">Investment Focus</div>
+      <div class="focus-grid">
+        <div class="focus-item">
+          <div class="focus-icon">🛍️</div>
+          <div class="focus-label ko">소비재 · 리테일</div>
+          <div class="focus-label en">Consumer</div>
+        </div>
+        <div class="focus-item">
+          <div class="focus-icon">💻</div>
+          <div class="focus-label ko">테크 스타트업</div>
+          <div class="focus-label en">Technology</div>
+        </div>
+        <div class="focus-item">
+          <div class="focus-icon">🎨</div>
+          <div class="focus-label ko">문화 · 크리에이티브</div>
+          <div class="focus-label en">Culture &amp; Creative</div>
+        </div>
+        <div class="focus-item">
+          <div class="focus-icon">🤝</div>
+          <div class="focus-label ko">한-인도네시아 크로스보더</div>
+          <div class="focus-label en">Korea–Indonesia</div>
+        </div>
+        <div class="focus-item">
+          <div class="focus-icon">💳</div>
+          <div class="focus-label ko">프라이빗 크레딧</div>
+          <div class="focus-label en">Private Credit</div>
+        </div>
+        <div class="focus-item">
+          <div class="focus-icon">🌏</div>
+          <div class="focus-label ko">동남아 신흥시장</div>
+          <div class="focus-label en">SEA Emerging Mkts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑧ EDUCATION -->
+    <div class="card card-edu">
+      <div class="section-label ko">학력</div>
+      <div class="section-label en">Education</div>
+      <div class="edu-item">
+        <div class="edu-school">The Wharton School</div>
+        <div class="edu-degree ko">경영학 석사 (MBA)</div>
+        <div class="edu-degree en">Master of Business Administration</div>
+        <div class="edu-sub ko">재무 &amp; 기업가정신 전공 · University of Pennsylvania</div>
+        <div class="edu-sub en">Finance &amp; Entrepreneurship · Univ. of Pennsylvania</div>
+      </div>
+      <hr class="divider" />
+      <div class="edu-item">
+        <div class="edu-school">University of Southern California</div>
+        <div class="edu-degree ko">경영학 학사 (BBA)</div>
+        <div class="edu-degree en">Bachelor of Business Administration</div>
+        <div class="edu-sub">USC Marshall School of Business · Trojan</div>
+      </div>
+    </div>
+
+    <!-- ⑨ STATS BAR -->
+    <div class="card card-stats">
+      <div class="stat-cell">
+        <div class="stat-num">7+</div>
+        <div class="stat-lbl ko">인도네시아 체류 연수</div>
+        <div class="stat-lbl en">Years in Indonesia</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">2</div>
+        <div class="stat-lbl ko">운용 펀드</div>
+        <div class="stat-lbl en">Active Funds</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">SEA</div>
+        <div class="stat-lbl ko">투자 지역 집중</div>
+        <div class="stat-lbl en">Investment Region</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">KR·ID</div>
+        <div class="stat-lbl ko">크로스보더 네트워크</div>
+        <div class="stat-lbl en">Cross-border Network</div>
+      </div>
+    </div>
+
+    <!-- ⑩ QUOTE -->
+    <div class="card card-quote">
+      <div class="section-label ko">철학</div>
+      <div class="section-label en">Philosophy</div>
+      <p class="quote-text ko">인도네시아와 한국을 잇는 가교로서, 탁월한 창업자들과 함께 소비재·테크·문화 분야의 기업을 함께 만들어갑니다.</p>
+      <p class="quote-text en">We actively build companies alongside exceptional founders in consumer, tech, and cultural sectors — bridging Korea and Indonesia.</p>
+      <div class="quote-src">— Ethan Choi, Mulia Sky Capital</div>
+    </div>
+
+    <!-- ⑪ CONTACT -->
+    <div class="card card-contact">
+      <div class="section-label ko">연락처 &amp; 링크</div>
+      <div class="section-label en">Contact &amp; Links</div>
+      <a class="contact-link" href="https://www.linkedin.com/in/jai-yoo-ethan-choi-b849168/" target="_blank" rel="noopener">
+        <div class="contact-icon ci-li">💼</div>
+        <div>
+          <div style="font-size:13px; color:var(--text); font-weight:600;">LinkedIn</div>
+          <div style="font-size:11px; color:var(--text-3);">Jai Yoo (Ethan) Choi</div>
+        </div>
+      </a>
+      <a class="contact-link" href="https://theorg.com/org/indies-capital-partners/org-chart/ethan-choi" target="_blank" rel="noopener">
+        <div class="contact-icon ci-web">🏢</div>
+        <div>
+          <div style="font-size:13px; color:var(--text); font-weight:600;">Indies Capital Partners</div>
+          <div style="font-size:11px; color:var(--text-3);">Venture Partner Profile</div>
+        </div>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/company/mulia-sky-capital" target="_blank" rel="noopener">
+        <div class="contact-icon ci-mail">🌏</div>
+        <div>
+          <div style="font-size:13px; color:var(--text); font-weight:600;">Mulia Sky Capital</div>
+          <div style="font-size:11px; color:var(--text-3);">Early-stage VC · Indonesia &amp; Korea</div>
+        </div>
+      </a>
+    </div>
+
+  </main>
+
+  <footer style="text-align:center; padding:32px 0 16px; color:var(--text-3); font-size:11px; letter-spacing:.05em;">
+    <span class="ko">© 2025 최재유 (Ethan Choi) · Jakarta, Indonesia</span>
+    <span class="en">© 2025 Ethan Choi (최재유) · Jakarta, Indonesia</span>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.documentElement.setAttribute('data-lang', lang);
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim() === (lang === 'ko' ? '한국어' : 'English'));
+      });
+    }
+  </script>
+</body>
+</html>
